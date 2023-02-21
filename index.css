@@ -1,0 +1,57 @@
+.content{ 
+    
+			max-width: 600px;
+			max-height: 800px;
+			margin: auto;
+			background: linear-gradient( 90deg,rgb(5, 168, 233) 0%, rgba(1, 49, 77, 0.76) 100% );
+			padding: 5%; 
+            border-radius: 20px;
+            font-size: 18px;
+			font-family: 'Labrada', serif;
+
+		}
+
+		.content h1{
+			text-align: center;
+			            
+		}
+
+		input[type=text]{
+			width: 80%;
+			height: 40px;
+			margin-bottom: 20px;
+            border-radius: 20px;
+            
+		}
+
+		input[type=button]{            
+			height:30px;
+            margin top: 1px;
+			margin-left: 9px; 
+		    border:3px dashed black ;
+            box-shadow: 0 0 0 7px #8f7e86;
+            font-size:17px;
+            border-radius: 10px;
+                           
+		}
+		button:hover, input[type=button]:hover{
+			background: #8f7e86;
+			
+		}
+
+		button, input[type=button]{ cursor: cell } 
+				
+			ul{
+			list-style-type: decimal;            
+			height: 250px;
+			background: #ffffff;
+			overflow-y: auto; 
+            border-radius: 30px;
+		
+		}
+
+		li{
+			height: 40px;
+			margin: 15px  15px 00;
+  			
+		}
