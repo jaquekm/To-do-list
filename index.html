@@ -1,50 +1,561 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-
-	<title>To do list</title>
-	<link rel="stylesheet" href="index.css" /><link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:ital,wght@0,700;1,700&family=Labrada:ital@1&family=Roboto+Mono:ital,wght@0,300;1,700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ContainerShare B2B | Plataforma de Consolidação de Containers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="index.css" />
+</head>
 <body>
-    
-	<div class='content'>
-		
+  <header class="hero">
+    <div class="hero__content wrapper">
+      <div class="hero__copy">
+        <span class="eyebrow">Blueprint de produto + arquitetura</span>
+        <h1>Plataforma B2B para Consolidação de Containers Compartilhados</h1>
+        <p class="hero__lead">
+          Solução digital para importadoras, tradings, despachantes e operadores logísticos compartilharem containers com rateio auditável, simulação de economia, matching de cargas compatíveis e governança operacional ponta a ponta.
+        </p>
+        <div class="hero__cta">
+          <a href="#simulador" class="button button--primary">Simular rateio</a>
+          <a href="#arquitetura" class="button button--secondary">Ver arquitetura</a>
+        </div>
+        <ul class="hero__highlights">
+          <li>Rateio híbrido por peso, volume, valor e volumes</li>
+          <li>Fator limitante automático: peso vs. cubagem</li>
+          <li>Fechamento com compliance documental</li>
+        </ul>
+      </div>
+      <div class="hero__panel card card--accent">
+        <h2>Resumo executivo</h2>
+        <div class="metric-grid">
+          <article>
+            <strong>+ Eficiência</strong>
+            <span>Ocupação otimizada com alerta de gargalo físico</span>
+          </article>
+          <article>
+            <strong>+ Transparência</strong>
+            <span>Memória de cálculo auditável por custo e regra aplicada</span>
+          </article>
+          <article>
+            <strong>+ Receita</strong>
+            <span>Marketplace logístico e motor de margem por embarque</span>
+          </article>
+          <article>
+            <strong>+ Escala</strong>
+            <span>Arquitetura multi-tenant preparada para novos modais</span>
+          </article>
+        </div>
+      </div>
+    </div>
+  </header>
 
-			<div class="row">
-					
-					<div class="col-12">
-						<h1>To do list</h1>
-						<form>
+  <main class="wrapper page">
+    <section id="visao-geral" class="section">
+      <div class="section__heading">
+        <span class="section__kicker">1. Visão de produto</span>
+        <h2>Problema resolvido e proposta de valor</h2>
+      </div>
+      <div class="grid grid--2">
+        <article class="card">
+          <h3>Dor do mercado</h3>
+          <ul class="check-list">
+            <li>Pequenas e médias empresas não completam um container sozinhas.</li>
+            <li>O rateio costuma ser manual, opaco e sujeito a conflito comercial.</li>
+            <li>Há baixa previsibilidade de custo antes do fechamento do embarque.</li>
+            <li>Coordenação documental entre múltiplos participantes é fragmentada.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Resultado esperado</h3>
+          <ul class="check-list">
+            <li>Reservas digitais de espaço em containers compartilhados.</li>
+            <li>Cálculo automático de ocupação, capacidade residual e custo individual.</li>
+            <li>Simulador de economia vs. embarque dedicado por empresa.</li>
+            <li>Base para evolução em marketplace logístico B2B com matching inteligente.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
 
-							<input type="text" name="task" id='task' placeholder="New item..." />
-							<input type="button" name="" 
-							onclick="addTask();"  
-							value="AddTask"/> 
-							
-						</form>
+    <section id="arquitetura" class="section">
+      <div class="section__heading">
+        <span class="section__kicker">2. Arquitetura do sistema</span>
+        <h2>Backend, frontend e serviços de domínio</h2>
+      </div>
+      <div class="architecture">
+        <article class="card architecture__layer">
+          <h3>Frontend web</h3>
+          <p>Portal responsivo para operadores e clientes B2B com dashboards, reserva de espaço, documentos, financeiro e trilha de cálculo por empresa.</p>
+          <ul>
+            <li>Portal do operador logístico</li>
+            <li>Portal do cliente/importador</li>
+            <li>Painel comercial e de matching</li>
+          </ul>
+        </article>
+        <article class="card architecture__layer">
+          <h3>API & Orquestração</h3>
+          <p>Camada central com autenticação, regras de negócio, versionamento do rateio e fluxos de fechamento do embarque.</p>
+          <ul>
+            <li>API REST/GraphQL</li>
+            <li>Motor de rateio</li>
+            <li>Workflow engine de pendências</li>
+          </ul>
+        </article>
+        <article class="card architecture__layer">
+          <h3>Serviços especializados</h3>
+          <p>Domínios desacoplados para pricing, documentos, notificações, faturamento e recomendações de consolidação.</p>
+          <ul>
+            <li>Pricing & simulação</li>
+            <li>Compliance documental</li>
+            <li>Matching e recomendação</li>
+          </ul>
+        </article>
+        <article class="card architecture__layer">
+          <h3>Dados & Integrações</h3>
+          <p>Persistência transacional, trilha de auditoria e integração com ERPs, TMS/WMS, provedores de documentos e gateways financeiros.</p>
+          <ul>
+            <li>PostgreSQL + Redis</li>
+            <li>Object storage para documentos</li>
+            <li>Eventos para BI e parceiros</li>
+          </ul>
+        </article>
+      </div>
+      <div class="grid grid--2">
+        <article class="card">
+          <h3>Backend recomendado</h3>
+          <p><strong>Arquitetura modular monolítica no MVP</strong>, evoluindo para microserviços apenas nos domínios com forte escala/isolamento.</p>
+          <ul>
+            <li><strong>Módulo Cadastro:</strong> empresas, usuários, produtos, origens, destinos, templates documentais.</li>
+            <li><strong>Módulo Embarques:</strong> criação, reserva, ocupação, consolidação, fechamento e milestones.</li>
+            <li><strong>Módulo Rateio:</strong> regras, pesos de modelo híbrido, exceções e memória de cálculo.</li>
+            <li><strong>Módulo Financeiro:</strong> custos, margem, contas a receber, faturamento por participante.</li>
+            <li><strong>Módulo Documentos:</strong> invoice, packing list, BL, checklists e bloqueios.</li>
+            <li><strong>Módulo Analytics:</strong> ocupação, rentabilidade, recorrência e forecast.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Frontend recomendado</h3>
+          <ul>
+            <li><strong>Workspace do operador:</strong> visão Kanban/lista de embarques, capacidade, rentabilidade e riscos.</li>
+            <li><strong>Workspace do cliente:</strong> cotação, reserva, upload documental, previsão de custo e rastreio.</li>
+            <li><strong>Camada de design system:</strong> componentes padronizados para formulários complexos, tabelas auditáveis e dashboards.</li>
+            <li><strong>Explicabilidade:</strong> toda tela de custo deve expor fórmula, base de rateio, percentuais e exceções aplicadas.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
 
-					</div>
+    <section id="dados" class="section">
+      <div class="section__heading">
+        <span class="section__kicker">3. Modelagem de dados</span>
+        <h2>Principais tabelas e responsabilidades</h2>
+      </div>
+      <div class="table-card card">
+        <table>
+          <thead>
+            <tr>
+              <th>Tabela</th>
+              <th>Campos principais</th>
+              <th>Responsabilidade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>companies</td>
+              <td>id, tenant_id, legal_name, trade_name, tax_id, company_type, credit_limit</td>
+              <td>Empresas participantes: importadora, trading, despachante, operador.</td>
+            </tr>
+            <tr>
+              <td>users</td>
+              <td>id, company_id, role, email, status, last_login_at</td>
+              <td>Usuários e permissões por tenant/empresa.</td>
+            </tr>
+            <tr>
+              <td>products</td>
+              <td>id, company_id, sku, description, hs_code, dangerous_flag, unit_value</td>
+              <td>Cadastro comercial e regulatório dos itens.</td>
+            </tr>
+            <tr>
+              <td>shipments</td>
+              <td>id, origin_port, destination_port, etd, eta, status, container_type_id</td>
+              <td>Embarque consolidado que agrupa participantes e custos.</td>
+            </tr>
+            <tr>
+              <td>container_types</td>
+              <td>id, code, max_weight_kg, max_volume_m3, max_packages</td>
+              <td>Parâmetros físicos e operacionais do container.</td>
+            </tr>
+            <tr>
+              <td>shipment_bookings</td>
+              <td>id, shipment_id, company_id, booking_status, reserved_weight_kg, reserved_volume_m3</td>
+              <td>Reserva de espaço por empresa no embarque.</td>
+            </tr>
+            <tr>
+              <td>shipment_items</td>
+              <td>id, booking_id, product_id, qty_packages, gross_weight_kg, volume_m3, cargo_value</td>
+              <td>Detalhe físico/financeiro da carga participante.</td>
+            </tr>
+            <tr>
+              <td>cost_items</td>
+              <td>id, shipment_id, cost_type, amount, currency, allocation_method, is_shared</td>
+              <td>Custos do embarque: frete, seguro, THC, armazenagem, handling.</td>
+            </tr>
+            <tr>
+              <td>allocation_profiles</td>
+              <td>id, tenant_id, name, min_charge, pricing_tier_mode, close_rules_json</td>
+              <td>Perfil configurável de rateio por cliente/operação.</td>
+            </tr>
+            <tr>
+              <td>allocation_rules</td>
+              <td>id, profile_id, cost_type, basis, weight_percent, minimum_amount</td>
+              <td>Regras por tipo de custo e modelo híbrido.</td>
+            </tr>
+            <tr>
+              <td>allocation_results</td>
+              <td>id, shipment_id, booking_id, cost_item_id, basis_value, ratio, allocated_amount</td>
+              <td>Resultado auditável do rateio por custo e participante.</td>
+            </tr>
+            <tr>
+              <td>documents</td>
+              <td>id, shipment_id, booking_id, doc_type, status, file_url, validated_at</td>
+              <td>Gestão documental e bloqueios de fechamento.</td>
+            </tr>
+            <tr>
+              <td>billing_invoices</td>
+              <td>id, booking_id, amount, margin_amount, issue_date, payment_status</td>
+              <td>Faturamento ao participante e apuração de margem.</td>
+            </tr>
+            <tr>
+              <td>audit_logs</td>
+              <td>id, entity_type, entity_id, action, actor_id, payload_json, created_at</td>
+              <td>Trilha imutável de alterações, fórmulas e exceções.</td>
+            </tr>
+            <tr>
+              <td>match_scores</td>
+              <td>id, shipment_id, company_id, score, compatibility_reason_json</td>
+              <td>Matching entre cargas compatíveis por rota, janela, perfil e restrições.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <article class="card">
+        <h3>Regras de modelagem importantes</h3>
+        <ul>
+          <li><strong>Multi-tenant:</strong> separar dados por operador logístico/holding ou usar schema por tenant em contas enterprise.</li>
+          <li><strong>Versionamento:</strong> toda regra de rateio e resultado precisa de versão para reprocessamento histórico.</li>
+          <li><strong>Auditoria first-class:</strong> cálculo não deve ser apenas derivado em tela; precisa ser persistido por item de custo.</li>
+          <li><strong>Documentos desacoplados:</strong> armazenar metadados no banco e binários em object storage com hash.</li>
+        </ul>
+      </article>
+    </section>
 
-			</div>
+    <section id="rateio" class="section">
+      <div class="section__heading">
+        <span class="section__kicker">4. Algoritmo de rateio</span>
+        <h2>Lógica detalhada, auditável e configurável</h2>
+      </div>
+      <div class="grid grid--2">
+        <article class="card">
+          <h3>Premissas de cálculo</h3>
+          <ol>
+            <li>Somar peso, volume, quantidade de volumes e valor FOB/CIF por participante.</li>
+            <li>Identificar o fator limitante do container: ocupação por peso ou por volume.</li>
+            <li>Aplicar faixas de preço conforme ocupação total do embarque.</li>
+            <li>Ratear cada custo segundo sua própria base configurada.</li>
+            <li>Aplicar mínimos, sobretaxas individualizadas e arredondamento financeiro.</li>
+            <li>Persistir memória de cálculo por empresa, por item de custo e por regra.</li>
+          </ol>
+        </article>
+        <article class="card">
+          <h3>Tipos de custos suportados</h3>
+          <ul>
+            <li><strong>Compartilhados:</strong> frete internacional, seguro global, THC, capatazia, armazenagem comum.</li>
+            <li><strong>Individualizados:</strong> carga perigosa, inspeção específica, embalagem especial, licenças.</li>
+            <li><strong>Condicionais:</strong> custo adicional por faixa de ocupação, urgência, porto de origem ou destino.</li>
+            <li><strong>Margem:</strong> markup fixo, percentual ou híbrido por empresa/embarque.</li>
+          </ul>
+        </article>
+      </div>
 
-			<div class="row">
-				<div class="col-12">
-				
-					<div class="to-do-list-box">
-					
-						<label>My List</label>
-						<ul id="myList">	
+      <article class="card code-card">
+        <h3>Pseudocódigo do motor de rateio</h3>
+        <pre><code>function calcularRateio(embarque, reservas, custos, perfil) {
+  validarPendenciasDocumentais(embarque, reservas)
 
-						</ul>
+  totais = agregarReservas(reservas)
+  ocupacaoPeso = totais.pesoKg / embarque.container.maxWeightKg
+  ocupacaoVolume = totais.volumeM3 / embarque.container.maxVolumeM3
+  fatorLimitante = ocupacaoPeso >= ocupacaoVolume ? "PESO" : "VOLUME"
 
+  faixa = descobrirFaixaDePreco(perfil.faixas, max(ocupacaoPeso, ocupacaoVolume))
+  custosAjustados = aplicarFaixaNosCustos(custos, faixa)
 
-					</div>
+  resultado = []
 
-				</div>
-			</div>
+  for custo in custosAjustados {
+    if (!custo.isShared) {
+      reserva = localizarReserva(custo.bookingId)
+      resultado.push(lancarCustoIndividual(reserva, custo))
+      continue
+    }
 
-	</div>
-	<script src="index,js"></script>
+    regra = buscarRegra(perfil, custo.costType)
+    baseTotal = 0
+    basesPorReserva = {}
+
+    for reserva in reservas {
+      base = calcularBase(regra, reserva, fatorLimitante)
+      basesPorReserva[reserva.id] = base
+      baseTotal += base
+    }
+
+    for reserva in reservas {
+      proporcao = baseTotal === 0 ? 0 : basesPorReserva[reserva.id] / baseTotal
+      valorRateado = custo.amount * proporcao
+      valorRateado += aplicarSobretaxasEspecificas(reserva, custo)
+      valorRateado = aplicarMinimoEmpresa(valorRateado, regra.minimumAmount, perfil.minCharge)
+
+      resultado.push({
+        bookingId: reserva.id,
+        costItemId: custo.id,
+        basis: regra.basis,
+        basisValue: basesPorReserva[reserva.id],
+        ratio: proporcao,
+        allocatedAmount: arredondar(valorRateado, 2)
+      })
+    }
+  }
+
+  return consolidarPorEmpresa(resultado)
+}</code></pre>
+      </article>
+
+      <div class="grid grid--3">
+        <article class="card">
+          <h3>Modelo híbrido</h3>
+          <p>Permite compor a base de rateio com pesos percentuais, por exemplo: 50% volume + 30% peso + 20% valor da mercadoria.</p>
+          <p><strong>Fórmula:</strong> base_híbrida = (volume_norm × 0,5) + (peso_norm × 0,3) + (valor_norm × 0,2)</p>
+        </article>
+        <article class="card">
+          <h3>Fator limitante</h3>
+          <p>Se o container “cubou” antes de atingir o peso máximo, custos de frete podem privilegiar volume; se estourou peso antes, priorizar kg evita subsídio cruzado.</p>
+        </article>
+        <article class="card">
+          <h3>Transparência</h3>
+          <p>Cada resultado deve mostrar: custo original, regra aplicada, base de cálculo, proporção, sobretaxa, mínimo e valor final faturado.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="simulador" class="section">
+      <div class="section__heading">
+        <span class="section__kicker">5. Simulação prática</span>
+        <h2>Comparação entre consolidação e embarque individual</h2>
+      </div>
+      <div class="grid grid--2">
+        <article class="card">
+          <h3>Entradas do simulador</h3>
+          <div class="simulator-form">
+            <label>
+              Peso da empresa (kg)
+              <input id="simWeight" type="number" min="1" value="3200" />
+            </label>
+            <label>
+              Volume da empresa (m³)
+              <input id="simVolume" type="number" min="0.1" step="0.1" value="9.5" />
+            </label>
+            <label>
+              Valor da mercadoria (USD)
+              <input id="simCargoValue" type="number" min="100" step="100" value="28000" />
+            </label>
+            <label>
+              Custo individual estimado (USD)
+              <input id="simIndividualCost" type="number" min="100" step="100" value="6200" />
+            </label>
+            <button id="simulateButton" class="button button--primary" type="button">Calcular economia</button>
+          </div>
+        </article>
+        <article class="card card--accent">
+          <h3>Resultado estimado</h3>
+          <div id="simResult" class="sim-result"></div>
+          <p class="sim-footnote">Simulação ilustrativa usando modelo híbrido: 45% volume, 35% peso, 20% valor, com mínimo operacional e margem embutida.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="ux" class="section">
+      <div class="section__heading">
+        <span class="section__kicker">6. Fluxo de usuário</span>
+        <h2>UX operacional próxima de um sistema real</h2>
+      </div>
+      <div class="timeline">
+        <article class="card timeline__item">
+          <span>01</span>
+          <h3>Criação do embarque</h3>
+          <p>Operador define rota, tipo de container, janela de embarque, capacidade e perfil de rateio aplicável.</p>
+        </article>
+        <article class="card timeline__item">
+          <span>02</span>
+          <h3>Entrada das empresas</h3>
+          <p>Clientes reservam espaço informando SKU, peso, volume, valor, exigências especiais e documentos preliminares.</p>
+        </article>
+        <article class="card timeline__item">
+          <span>03</span>
+          <h3>Matching inteligente</h3>
+          <p>Motor sugere empresas compatíveis por rota, Incoterm, janela, restrições de carga e histórico de recorrência.</p>
+        </article>
+        <article class="card timeline__item">
+          <span>04</span>
+          <h3>Simulação e negociação</h3>
+          <p>Área comercial compara custo consolidado vs. individual, margem esperada e ocupação residual antes de confirmar.</p>
+        </article>
+        <article class="card timeline__item">
+          <span>05</span>
+          <h3>Conferência documental</h3>
+          <p>Checklist valida invoice, packing list, BL draft e pendências regulatórias. Sem compliance, não fecha.</p>
+        </article>
+        <article class="card timeline__item">
+          <span>06</span>
+          <h3>Fechamento e faturamento</h3>
+          <p>Sistema consolida custos, gera memória de cálculo, emite cobrança e atualiza indicadores de rentabilidade.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="roadmap" class="section">
+      <div class="section__heading">
+        <span class="section__kicker">7. Roadmap</span>
+        <h2>Evolução do MVP até escala de marketplace</h2>
+      </div>
+      <div class="grid grid--3">
+        <article class="card">
+          <h3>MVP (0-4 meses)</h3>
+          <ul>
+            <li>Cadastro de empresas, produtos, rotas e tipos de container</li>
+            <li>Criação de embarque compartilhado e reservas</li>
+            <li>Motor de rateio por peso, volume, valor e híbrido</li>
+            <li>Checklist documental e bloqueio de fechamento</li>
+            <li>Dashboard básico de ocupação e margem</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Growth (4-9 meses)</h3>
+          <ul>
+            <li>Portal self-service para clientes</li>
+            <li>Integração com ERP/TMS/WMS e emissão financeira</li>
+            <li>Faixas de preço por ocupação e pricing dinâmico</li>
+            <li>Regras comerciais por contrato/perfil de cliente</li>
+            <li>Alertas e notificações automáticas</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Escala (9-18 meses)</h3>
+          <ul>
+            <li>Marketplace com matching automatizado</li>
+            <li>Score de confiabilidade e recorrência dos participantes</li>
+            <li>Machine learning para previsão de ocupação e margem</li>
+            <li>Expansão para LCL, aéreo consolidado e multimodal</li>
+            <li>APIs abertas para parceiros e ecossistema</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="stack" class="section">
+      <div class="section__heading">
+        <span class="section__kicker">8. Stack tecnológica</span>
+        <h2>Tecnologias reais e justificadas</h2>
+      </div>
+      <div class="grid grid--2">
+        <article class="card">
+          <h3>Stack sugerida</h3>
+          <ul>
+            <li><strong>Frontend:</strong> React + TypeScript + Next.js + TanStack Query + Chart.js/ECharts</li>
+            <li><strong>Backend:</strong> Node.js (NestJS) + TypeScript</li>
+            <li><strong>Banco transacional:</strong> PostgreSQL</li>
+            <li><strong>Cache/fila:</strong> Redis + BullMQ</li>
+            <li><strong>Storage:</strong> S3 compatível para documentos</li>
+            <li><strong>Auth:</strong> Keycloak/Auth0/Clerk B2B</li>
+            <li><strong>Observabilidade:</strong> OpenTelemetry + Grafana + Loki</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Justificativa arquitetural</h3>
+          <ul>
+            <li>NestJS facilita modularização, DI e governança de domínio complexo.</li>
+            <li>PostgreSQL oferece integridade forte, JSONB para regras e boa capacidade analítica.</li>
+            <li>Redis/BullMQ desacopla jobs de cálculo, notificação e validação documental.</li>
+            <li>Next.js acelera construção de interfaces B2B densas com SSR quando necessário.</li>
+            <li>TypeScript reduz erro em regras financeiras/logísticas sensíveis.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="riscos" class="section">
+      <div class="section__heading">
+        <span class="section__kicker">9. Riscos e mitigação</span>
+        <h2>O que pode falhar e como reduzir impacto</h2>
+      </div>
+      <div class="grid grid--2">
+        <article class="card">
+          <h3>Riscos operacionais e técnicos</h3>
+          <ul>
+            <li>Dados físicos incorretos de peso/volume gerando rateio distorcido.</li>
+            <li>Conflitos comerciais por falta de explicabilidade no cálculo.</li>
+            <li>Fechamento com documentação incompleta e risco aduaneiro.</li>
+            <li>Excesso de customização por cliente tornando o motor inviável de manter.</li>
+            <li>Baixa liquidez inicial do marketplace em novas rotas.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Mitigações recomendadas</h3>
+          <ul>
+            <li>Validação dupla de peso/volume e alertas de outlier por SKU/histórico.</li>
+            <li>Memória de cálculo detalhada + versionamento + trilha de auditoria.</li>
+            <li>Workflow obrigatório de documentos com bloqueio por status.</li>
+            <li>Catálogo fechado de regras configuráveis antes de permitir scripts customizados.</li>
+            <li>Estratégia seed com operadores âncora e rotas de alta recorrência.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="monetizacao" class="section">
+      <div class="section__heading">
+        <span class="section__kicker">10. Monetização SaaS</span>
+        <h2>Modelos de receita viáveis para a plataforma</h2>
+      </div>
+      <div class="grid grid--3">
+        <article class="card">
+          <h3>Assinatura</h3>
+          <p>Planos por número de usuários, embarques mensais, tenants e módulos habilitados.</p>
+        </article>
+        <article class="card">
+          <h3>Take rate</h3>
+          <p>Percentual sobre a intermediação do embarque compartilhado ou sobre economia gerada.</p>
+        </article>
+        <article class="card">
+          <h3>Add-ons</h3>
+          <p>Matching premium, integrações ERP, analytics avançado, SLA financeiro e branding whitelabel.</p>
+        </article>
+      </div>
+      <article class="card">
+        <h3>Estratégia comercial sugerida</h3>
+        <p><strong>Fase 1:</strong> vender como SaaS operacional para operadores logísticos e tradings. <strong>Fase 2:</strong> cobrar serviços financeiros/comerciais por rede. <strong>Fase 3:</strong> capturar valor de marketplace via transação, dados e serviços agregados.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrapper footer__content">
+      <p>ContainerShare B2B — proposta de arquitetura, produto e operação para consolidação logística internacional.</p>
+    </div>
+  </footer>
+
+  <script src="index,js"></script>
 </body>
 </html>

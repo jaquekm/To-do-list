@@ -1,50 +1,85 @@
-	var ul = document.getElementById("myList");
-	var li;
-	var itemId;
-	var item;
-	addTask	= function (){
-        
-		if(document.getElementById("task").value != ""){
+const simulatorDefaults = {
+  containerMaxWeightKg: 28000,
+  containerMaxVolumeM3: 67,
+  totalShipmentWeightKg: 18400,
+  totalShipmentVolumeM3: 53,
+  totalShipmentCargoValue: 162000,
+  sharedCostsUsd: 11800,
+  minimumChargeUsd: 450,
+  markupPercent: 0.08,
+  weights: {
+    volume: 0.45,
+    weight: 0.35,
+    cargoValue: 0.2,
+  },
+};
 
-			item   = document.getElementById("task");
+function formatCurrency(value) {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 2,
+  }).format(value);
+}
 
-			itemId = ul.childElementCount;
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
 
-			li 	   = createItemEl(item.value,itemId);
-			li.appendChild(createRemoveTaskBtn(itemId));
-			ul.appendChild(li);
-			item.value = "";
+function buildResultCard(label, value, description) {
+  return `
+    <article class="result-stat">
+      <span>${label}</span>
+      <strong>${value}</strong>
+      <small>${description}</small>
+    </article>
+  `;
+}
 
-		}
-	}
+function calculateSimulation() {
+  const weight = Number(document.getElementById('simWeight').value || 0);
+  const volume = Number(document.getElementById('simVolume').value || 0);
+  const cargoValue = Number(document.getElementById('simCargoValue').value || 0);
+  const individualCost = Number(document.getElementById('simIndividualCost').value || 0);
 
-	removeTask = function( itemId ){
+  const resultNode = document.getElementById('simResult');
 
-		for( i = 0 ; i < ul.children.length ; i++){
+  if (!weight || !volume || !cargoValue || !individualCost) {
+    resultNode.innerHTML = '<p>Preencha todos os campos para gerar a simulação.</p>';
+    return;
+  }
 
-			if(ul.children[i].getAttribute("index") == itemId ){
+  const totalWeight = simulatorDefaults.totalShipmentWeightKg + weight;
+  const totalVolume = simulatorDefaults.totalShipmentVolumeM3 + volume;
+  const totalCargoValue = simulatorDefaults.totalShipmentCargoValue + cargoValue;
 
-				ul.children[i].remove();
+  const occupancyWeight = totalWeight / simulatorDefaults.containerMaxWeightKg;
+  const occupancyVolume = totalVolume / simulatorDefaults.containerMaxVolumeM3;
+  const limiter = occupancyWeight >= occupancyVolume ? 'Peso' : 'Volume';
 
-			}
-		}
-	}
+  const normalizedWeight = weight / totalWeight;
+  const normalizedVolume = volume / totalVolume;
+  const normalizedCargoValue = cargoValue / totalCargoValue;
 
-        const newLocal = createItemEl = function (itemValue, itemId) {
+  const hybridBase =
+    normalizedVolume * simulatorDefaults.weights.volume +
+    normalizedWeight * simulatorDefaults.weights.weight +
+    normalizedCargoValue * simulatorDefaults.weights.cargoValue;
 
-        let li = document.createElement("li");
+  const occupancyFactor = clamp(Math.max(occupancyWeight, occupancyVolume), 0.65, 1.1);
+  const sharedAllocated = simulatorDefaults.sharedCostsUsd * hybridBase * occupancyFactor;
+  const margin = sharedAllocated * simulatorDefaults.markupPercent;
+  const estimatedConsolidatedCost = Math.max(sharedAllocated + margin, simulatorDefaults.minimumChargeUsd);
+  const savings = individualCost - estimatedConsolidatedCost;
+  const savingsPercent = (savings / individualCost) * 100;
 
-        li.setAttribute("index", itemId);
+  resultNode.innerHTML = [
+    buildResultCard('Custo consolidado estimado', formatCurrency(estimatedConsolidatedCost), 'Inclui rateio híbrido + margem operacional.'),
+    buildResultCard('Economia vs. individual', formatCurrency(savings), 'Valor positivo indica vantagem da consolidação.'),
+    buildResultCard('Economia percentual', `${savingsPercent.toFixed(1)}%`, 'Comparação direta com o embarque dedicado informado.'),
+    buildResultCard('Fator limitante do embarque', limiter, `Peso: ${(occupancyWeight * 100).toFixed(1)}% | Volume: ${(occupancyVolume * 100).toFixed(1)}%`),
+  ].join('');
+}
 
-        li.appendChild(document.createTextNode(itemValue));
-
-        return li;
-    }
-	
-	createRemoveTaskBtn = function(itemId){
-		let btn =  document.createElement("button");
-		btn.setAttribute("onclick", "removeTask("+itemId+")"); 
-		btn.innerHTML ="X";
-		return btn;
-	}
-
+document.getElementById('simulateButton').addEventListener('click', calculateSimulation);
+window.addEventListener('DOMContentLoaded', calculateSimulation);
