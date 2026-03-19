@@ -7,6 +7,9 @@ const simulatorDefaults = {
   sharedCostsUsd: 11800,
   minimumChargeUsd: 450,
   markupPercent: 0.08,
+  baseCurrency: 'USD',
+  defaultTargetCurrency: 'BRL',
+  defaultExchangeRate: 5.2987,
   weights: {
     volume: 0.45,
     weight: 0.35,
@@ -14,11 +17,18 @@ const simulatorDefaults = {
   },
 };
 
-function formatCurrency(value) {
+function formatCurrency(value, currency = simulatorDefaults.baseCurrency) {
   return new Intl.NumberFormat('pt-BR', {
     style: 'currency',
-    currency: 'USD',
+    currency,
     maximumFractionDigits: 2,
+  }).format(value);
+}
+
+function formatNumber(value, options = {}) {
+  return new Intl.NumberFormat('pt-BR', {
+    maximumFractionDigits: 1,
+    ...options,
   }).format(value);
 }
 
@@ -36,15 +46,139 @@ function buildResultCard(label, value, description) {
   `;
 }
 
+function buildProgressCard(label, usedValue, maxValue, unit, occupancy, isAlert) {
+  const width = Math.min(occupancy * 100, 100);
+  const barClass = isAlert ? 'progress-bar progress-bar--alert' : 'progress-bar';
+
+  return `
+    <article class="capacity-card">
+      <span>${label}</span>
+      <strong>${formatNumber(usedValue)} ${unit}</strong>
+      <div class="progress-track" aria-hidden="true">
+        <div class="${barClass}" style="width: ${width.toFixed(1)}%"></div>
+      </div>
+      <small>${formatNumber(usedValue)} de ${formatNumber(maxValue)} ${unit} (${(occupancy * 100).toFixed(1)}% ocupado)</small>
+    </article>
+  `;
+}
+
+function getTargetCurrency() {
+  return document.getElementById('simTargetCurrency').value || simulatorDefaults.defaultTargetCurrency;
+}
+
+function getExchangeRate() {
+  const targetCurrency = getTargetCurrency();
+
+  if (targetCurrency === simulatorDefaults.baseCurrency) {
+    return 1;
+  }
+
+  return Number(document.getElementById('simExchangeRate').value || 0);
+}
+
+function updateFxStatus(message) {
+  document.getElementById('simFxStatus').textContent = message;
+}
+
+function updateCurrencyUnits() {
+  const targetCurrency = getTargetCurrency();
+  document.getElementById('simCargoCurrencyUnit').textContent = simulatorDefaults.baseCurrency;
+  document.getElementById('simCostCurrencyUnit').textContent = simulatorDefaults.baseCurrency;
+  document.getElementById('simTargetCurrencyUnit').textContent = targetCurrency;
+
+  if (targetCurrency === simulatorDefaults.baseCurrency) {
+    document.getElementById('simExchangeRate').value = 1;
+    updateFxStatus(`Sem conversão: resultados exibidos em ${simulatorDefaults.baseCurrency}.`);
+  }
+}
+
+function renderCapacityHealth(occupancyWeight, occupancyVolume, limiter, isFeasible) {
+  const healthNode = document.getElementById('simHealth');
+  const bannerClass = isFeasible ? 'health-banner' : 'health-banner health-banner--alert';
+  const title = isFeasible ? 'Reserva viável para consolidação' : 'Reserva inviável para este container';
+  const description = isFeasible
+    ? `O fator limitante atual é ${limiter.toLowerCase()} e a equipe comercial já consegue discutir economia com segurança.`
+    : `O fator limitante é ${limiter.toLowerCase()}. Ajuste peso ou volume para voltar a uma faixa operacional válida antes de cotar.`;
+
+  healthNode.innerHTML = [
+    `
+      <article class="${bannerClass}">
+        <span>Status operacional</span>
+        <strong>${title}</strong>
+        <small>${description}</small>
+      </article>
+    `,
+    '<div class="capacity-grid">',
+    buildProgressCard('Peso total estimado', simulatorDefaults.totalShipmentWeightKg + Number(document.getElementById('simWeight').value || 0), simulatorDefaults.containerMaxWeightKg, 'kg', occupancyWeight, occupancyWeight > 1),
+    buildProgressCard('Volume total estimado', simulatorDefaults.totalShipmentVolumeM3 + Number(document.getElementById('simVolume').value || 0), simulatorDefaults.containerMaxVolumeM3, 'm³', occupancyVolume, occupancyVolume > 1),
+    '</div>',
+  ].join('');
+}
+
+async function fetchLatestExchangeRate() {
+  const targetCurrency = getTargetCurrency();
+
+  if (targetCurrency === simulatorDefaults.baseCurrency) {
+    document.getElementById('simExchangeRate').value = 1;
+    updateFxStatus(`Sem conversão: resultados exibidos em ${simulatorDefaults.baseCurrency}.`);
+    calculateSimulation();
+    return;
+  }
+
+  if (typeof fetch !== 'function') {
+    updateFxStatus('Busca automática indisponível neste ambiente. Informe a cotação manualmente.');
+    calculateSimulation();
+    return;
+  }
+
+  updateFxStatus(`Consultando cotação do dia para ${simulatorDefaults.baseCurrency} → ${targetCurrency}...`);
+
+  try {
+    const response = await fetch(`https://api.frankfurter.app/latest?from=${simulatorDefaults.baseCurrency}&to=${targetCurrency}`);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    const exchangeRate = data.rates?.[targetCurrency];
+
+    if (!exchangeRate) {
+      throw new Error('Cotação não encontrada');
+    }
+
+    document.getElementById('simExchangeRate').value = exchangeRate;
+    updateFxStatus(`Cotação do dia carregada: 1 ${simulatorDefaults.baseCurrency} = ${formatNumber(exchangeRate, { maximumFractionDigits: 4 })} ${targetCurrency} em ${data.date}.`);
+    calculateSimulation();
+  } catch (error) {
+    updateFxStatus(`Não foi possível buscar a cotação do dia agora. Você pode informar a taxa manualmente. (${error.message})`);
+    calculateSimulation();
+  }
+}
+
+function resetSimulation() {
+  document.getElementById('simWeight').value = 3200;
+  document.getElementById('simVolume').value = 9.5;
+  document.getElementById('simCargoValue').value = 28000;
+  document.getElementById('simIndividualCost').value = 6200;
+  document.getElementById('simTargetCurrency').value = simulatorDefaults.defaultTargetCurrency;
+  document.getElementById('simExchangeRate').value = simulatorDefaults.defaultExchangeRate;
+  updateCurrencyUnits();
+  updateFxStatus(`Cotação-base restaurada: 1 ${simulatorDefaults.baseCurrency} = ${formatNumber(simulatorDefaults.defaultExchangeRate, { maximumFractionDigits: 4 })} ${simulatorDefaults.defaultTargetCurrency}.`);
+  calculateSimulation();
+}
+
 function calculateSimulation() {
   const weight = Number(document.getElementById('simWeight').value || 0);
   const volume = Number(document.getElementById('simVolume').value || 0);
   const cargoValue = Number(document.getElementById('simCargoValue').value || 0);
   const individualCost = Number(document.getElementById('simIndividualCost').value || 0);
+  const targetCurrency = getTargetCurrency();
+  const exchangeRate = getExchangeRate();
 
   const resultNode = document.getElementById('simResult');
 
   if (!weight || !volume || !cargoValue || !individualCost) {
+    document.getElementById('simHealth').innerHTML = '';
     resultNode.innerHTML = '<p>Preencha todos os campos para gerar a simulação.</p>';
     return;
   }
@@ -56,6 +190,22 @@ function calculateSimulation() {
   const occupancyWeight = totalWeight / simulatorDefaults.containerMaxWeightKg;
   const occupancyVolume = totalVolume / simulatorDefaults.containerMaxVolumeM3;
   const limiter = occupancyWeight >= occupancyVolume ? 'Peso' : 'Volume';
+  const isFeasible = occupancyWeight <= 1 && occupancyVolume <= 1;
+
+  renderCapacityHealth(occupancyWeight, occupancyVolume, limiter, isFeasible);
+
+  if (!isFeasible) {
+    const exceededWeightKg = Math.max(totalWeight - simulatorDefaults.containerMaxWeightKg, 0);
+    const exceededVolumeM3 = Math.max(totalVolume - simulatorDefaults.containerMaxVolumeM3, 0);
+
+    resultNode.innerHTML = [
+      buildResultCard('Status da consolidação', 'Inviável', 'A carga excede a capacidade disponível do container compartilhado.'),
+      buildResultCard('Fator limitante do embarque', limiter, `Peso: ${(occupancyWeight * 100).toFixed(1)}% | Volume: ${(occupancyVolume * 100).toFixed(1)}%`),
+      buildResultCard('Excedente de capacidade', `${formatNumber(exceededWeightKg, { maximumFractionDigits: 0 })} kg / ${formatNumber(exceededVolumeM3)} m³`, 'Revise peso e volume antes de estimar custo e economia.'),
+      buildResultCard('Moeda de visualização', targetCurrency, 'A conversão final será aplicada assim que a reserva voltar a uma condição viável.'),
+    ].join('');
+    return;
+  }
 
   const normalizedWeight = weight / totalWeight;
   const normalizedVolume = volume / totalVolume;
@@ -73,13 +223,44 @@ function calculateSimulation() {
   const savings = individualCost - estimatedConsolidatedCost;
   const savingsPercent = (savings / individualCost) * 100;
 
+  const hasValidConversion = targetCurrency === simulatorDefaults.baseCurrency || exchangeRate > 0;
+  const convertedCost = hasValidConversion ? estimatedConsolidatedCost * exchangeRate : null;
+  const convertedSavings = hasValidConversion ? savings * exchangeRate : null;
+
   resultNode.innerHTML = [
-    buildResultCard('Custo consolidado estimado', formatCurrency(estimatedConsolidatedCost), 'Inclui rateio híbrido + margem operacional.'),
-    buildResultCard('Economia vs. individual', formatCurrency(savings), 'Valor positivo indica vantagem da consolidação.'),
+    buildResultCard('Custo consolidado estimado', formatCurrency(estimatedConsolidatedCost, simulatorDefaults.baseCurrency), 'Inclui rateio híbrido + margem operacional na moeda-base do motor.'),
+    buildResultCard(
+      `Custo convertido (${targetCurrency})`,
+      hasValidConversion ? formatCurrency(convertedCost, targetCurrency) : 'Informe a cotação',
+      hasValidConversion ? `Conversão aplicada com a taxa atual de 1 ${simulatorDefaults.baseCurrency} = ${formatNumber(exchangeRate, { maximumFractionDigits: 4 })} ${targetCurrency}.` : 'Preencha ou atualize a cotação do dia para converter este resultado.'
+    ),
+    buildResultCard('Economia vs. individual', formatCurrency(savings, simulatorDefaults.baseCurrency), 'Valor positivo indica vantagem da consolidação na moeda-base.'),
+    buildResultCard(
+      `Economia convertida (${targetCurrency})`,
+      hasValidConversion ? formatCurrency(convertedSavings, targetCurrency) : 'Atualize FX',
+      hasValidConversion ? 'Resultado convertido para facilitar a negociação com clientes/importadores em outros países.' : 'A conversão fica disponível após informar a taxa válida.'
+    ),
     buildResultCard('Economia percentual', `${savingsPercent.toFixed(1)}%`, 'Comparação direta com o embarque dedicado informado.'),
     buildResultCard('Fator limitante do embarque', limiter, `Peso: ${(occupancyWeight * 100).toFixed(1)}% | Volume: ${(occupancyVolume * 100).toFixed(1)}%`),
   ].join('');
 }
 
+const simulatorInputIds = ['simWeight', 'simVolume', 'simCargoValue', 'simIndividualCost', 'simExchangeRate'];
+
+simulatorInputIds.forEach((inputId) => {
+  document.getElementById(inputId).addEventListener('input', calculateSimulation);
+});
+
+document.getElementById('simTargetCurrency').addEventListener('change', () => {
+  updateCurrencyUnits();
+  fetchLatestExchangeRate();
+});
+
 document.getElementById('simulateButton').addEventListener('click', calculateSimulation);
-window.addEventListener('DOMContentLoaded', calculateSimulation);
+document.getElementById('fetchFxButton').addEventListener('click', fetchLatestExchangeRate);
+document.getElementById('resetSimulationButton').addEventListener('click', resetSimulation);
+window.addEventListener('DOMContentLoaded', () => {
+  updateCurrencyUnits();
+  calculateSimulation();
+  fetchLatestExchangeRate();
+});

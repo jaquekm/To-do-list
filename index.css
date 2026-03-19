@@ -310,6 +310,363 @@ body {
   font-weight: 800;
 }
 
+
+.section__description {
+  margin: 12px 0 0;
+  max-width: 78ch;
+  color: #cbd5e1;
+  line-height: 1.7;
+}
+
+.calculation-grid {
+  margin-bottom: 18px;
+}
+
+.route-grid,
+.route-table {
+  margin-top: 18px;
+}
+
+.route-card ol {
+  margin: 0;
+  padding-left: 20px;
+  line-height: 1.8;
+}
+
+.permission-grid {
+  margin: 18px 0;
+}
+
+.permission-list {
+  display: grid;
+  gap: 10px;
+}
+
+.permission-list span {
+  display: block;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #0f172a;
+  line-height: 1.6;
+}
+
+.access-workspace,
+.permission-matrix-card {
+  margin-bottom: 18px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.formula-stack {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.formula-chip {
+  width: fit-content;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #0f172a;
+  border: 1px solid #bfdbfe;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.88rem;
+}
+
+.document-cards,
+.forms-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.document-cards {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 18px 0;
+}
+
+.document-card p,
+.intake-form__header p {
+  margin-top: 0;
+  color: #475569;
+  line-height: 1.7;
+}
+
+.intake-form {
+  display: grid;
+  gap: 18px;
+}
+
+.intake-form__header h3 {
+  margin: 8px 0;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.form-grid label {
+  display: grid;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.form-grid label > span {
+  color: #0f172a;
+}
+
+.form-grid input,
+.form-grid textarea,
+.form-grid select {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 0.98rem;
+  font-family: inherit;
+  background: #f8fafc;
+}
+
+.form-grid textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.form-grid__full {
+  grid-column: 1 / -1;
+}
+
+.button--ghost {
+  background: transparent;
+  color: var(--text-dark);
+  border: 1px solid #cbd5e1;
+}
+
+.simulator-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 20px;
+}
+
+.simulator-card {
+  display: grid;
+  gap: 20px;
+}
+
+.simulator-card__header {
+  display: grid;
+  gap: 8px;
+}
+
+.simulator-card__header h3 {
+  margin: 6px 0 0;
+}
+
+.simulator-card__header p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.7;
+}
+
+.card-tag {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #0f172a;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.simulator-context {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.simulator-context article,
+.capacity-card,
+.health-banner {
+  border-radius: 18px;
+  border: 1px solid #dbeafe;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  padding: 16px 18px;
+}
+
+.simulator-context span,
+.capacity-card span,
+.health-banner span {
+  display: block;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.simulator-context strong,
+.capacity-card strong,
+.health-banner strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.2rem;
+  color: #0f172a;
+}
+
+.simulator-context small,
+.capacity-card small,
+.health-banner small {
+  display: block;
+  margin-top: 8px;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.simulator-form {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.simulator-form label {
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid #dbeafe;
+  background: #f8fbff;
+}
+
+.simulator-form label > span {
+  font-size: 0.98rem;
+}
+
+.simulator-form label > small {
+  color: #64748b;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.input-shell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  background: white;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-shell:focus-within {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.14);
+}
+
+.simulator-form input,
+.simulator-form select {
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  padding: 14px 0;
+  background: transparent;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.simulator-form input:focus,
+.simulator-form select:focus {
+  outline: none;
+}
+
+.sim-fx-status {
+  margin: -4px 0 0;
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.input-unit {
+  color: #475569;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.simulator-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.simulator-health {
+  display: grid;
+  gap: 14px;
+}
+
+.health-banner {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(34, 197, 94, 0.08));
+}
+
+.health-banner--alert {
+  border-color: rgba(248, 113, 113, 0.3);
+  background: linear-gradient(135deg, rgba(254, 226, 226, 0.95), rgba(255, 237, 213, 0.95));
+}
+
+.capacity-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.capacity-card {
+  display: grid;
+  gap: 12px;
+}
+
+.progress-track {
+  width: 100%;
+  height: 12px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #dbeafe;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #38bdf8, #22c55e);
+}
+
+.progress-bar--alert {
+  background: linear-gradient(90deg, #fb7185, #f97316);
+}
+
+.sim-result {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.result-stat {
+  min-height: 132px;
+}
+
+.result-stat span {
+  color: #64748b;
+  font-weight: 700;
+}
+
+.result-stat small {
+  display: block;
+  margin-top: 10px;
+  color: #475569;
+  line-height: 1.6;
+}
+
 .footer {
   padding: 28px 0 48px;
 }
@@ -324,12 +681,19 @@ body {
   .grid--2,
   .grid--3,
   .timeline,
-  .architecture {
+  .architecture,
+  .simulator-layout,
+  .simulator-form,
+  .capacity-grid,
+  .document-cards,
+  .form-grid {
     grid-template-columns: 1fr;
   }
 
-  .metric-grid {
-    grid-template-columns: 1fr 1fr;
+  .metric-grid,
+  .sim-result,
+  .simulator-context {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -346,7 +710,8 @@ body {
     padding: 20px;
   }
 
-  .button {
+  .button,
+  .simulator-actions .button {
     width: 100%;
   }
 }
