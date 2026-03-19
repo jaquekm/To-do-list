@@ -148,9 +148,216 @@
       </div>
     </section>
 
+    <section id="acesso" class="section">
+      <div class="section__heading">
+        <span class="section__kicker">3. Empresas, usuários e permissões</span>
+        <h2>Controle de acesso por empresa, setor e perfil operacional</h2>
+        <p class="section__description">Cada empresa precisa ter seu próprio workspace, usuários autenticados e permissões vinculadas aos setores que operam no processo: comercial, documentação, financeiro, logística e gestão.</p>
+      </div>
+
+      <div class="grid grid--2">
+        <article class="card">
+          <h3>Cadastro de empresas</h3>
+          <ul class="check-list">
+            <li><strong>Dados cadastrais:</strong> razão social, nome fantasia, tax ID, país, endereço, contatos e tipo de empresa.</li>
+            <li><strong>Papel no ecossistema:</strong> importador, fornecedor, trading, operador logístico, despachante ou agente.</li>
+            <li><strong>Configuração comercial:</strong> moeda padrão, Incoterms aceitos, limite de crédito, perfil de rateio e rotas autorizadas.</li>
+            <li><strong>Compliance:</strong> status KYC, documentos societários, certificações e bloqueios regulatórios.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Usuários, senha e autenticação</h3>
+          <ul class="check-list">
+            <li>Login por e-mail corporativo com senha forte, expiração opcional e MFA para perfis críticos.</li>
+            <li>Fluxos de convite, ativação, redefinição de senha, bloqueio por tentativas e auditoria de acesso.</li>
+            <li>Suporte a SSO/IdP enterprise no futuro, mantendo login local no MVP.</li>
+            <li>Um mesmo usuário pode pertencer a mais de uma empresa, mas com papéis independentes por tenant.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="grid grid--2 permission-grid">
+        <article class="card">
+          <h3>Permissões por setor</h3>
+          <div class="permission-list">
+            <span>Comercial: criar cotações, aprovar margem, reservar espaço</span>
+            <span>Documentação: validar invoice, packing list, BL draft e certificados</span>
+            <span>Logística: confirmar booking, carrier, cut-off, milestones e ocorrências</span>
+            <span>Financeiro: visualizar custos, aprovar faturamento e conciliar recebíveis</span>
+            <span>Gestão: administrar usuários, políticas, relatórios e trilha de auditoria</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Regras de autorização</h3>
+          <ul class="check-list">
+            <li>Permissões devem combinar <strong>empresa + setor + papel + escopo</strong>.</li>
+            <li>Exemplo: usuário do financeiro pode ver custos e invoices, mas não alterar documentação de exportação.</li>
+            <li>Gestores de empresa podem convidar novos usuários apenas dentro da própria organização.</li>
+            <li>Operador logístico pode enxergar múltiplas empresas da operação; clientes enxergam somente seus próprios bookings.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="forms-grid access-workspace">
+        <form class="card intake-form">
+          <div class="intake-form__header">
+            <span class="card-tag">Tela 1</span>
+            <h3>Cadastro de empresa</h3>
+            <p>Fluxo base para onboarding da empresa antes de habilitar usuários e permissões.</p>
+          </div>
+          <div class="form-grid">
+            <label><span>Razão social</span><input type="text" placeholder="Ex.: Importadora Atlântico S.A." /></label>
+            <label><span>Nome fantasia</span><input type="text" placeholder="Ex.: Atlântico Imports" /></label>
+            <label><span>Tax ID / CNPJ / VAT</span><input type="text" placeholder="Documento fiscal da empresa" /></label>
+            <label><span>Tipo de empresa</span><select><option>Importador</option><option>Fornecedor</option><option>Trading</option><option>Operador logístico</option></select></label>
+            <label><span>País e endereço</span><input type="text" placeholder="País, cidade e endereço principal" /></label>
+            <label><span>Responsável principal</span><input type="text" placeholder="Nome, e-mail e telefone" /></label>
+            <label><span>Moeda padrão</span><select><option>USD</option><option>BRL</option><option>EUR</option></select></label>
+            <label><span>Setores habilitados</span><input type="text" placeholder="Comercial, documentação, logística, financeiro" /></label>
+            <label class="form-grid__full"><span>Rotas e regras comerciais</span><textarea rows="3" placeholder="Rotas autorizadas, Incoterms aceitos, limite de crédito, perfil de rateio, observações de compliance"></textarea></label>
+          </div>
+          <div class="form-actions">
+            <button class="button button--primary" type="button">Salvar empresa</button>
+            <button class="button button--ghost" type="button">Enviar para compliance</button>
+          </div>
+        </form>
+
+        <form class="card intake-form">
+          <div class="intake-form__header">
+            <span class="card-tag">Tela 2</span>
+            <h3>Usuários, senha e vínculo por setor</h3>
+            <p>Organizado para convidar usuários, definir senha inicial e vincular cada pessoa ao setor correto.</p>
+          </div>
+          <div class="form-grid">
+            <label><span>Nome do usuário</span><input type="text" placeholder="Ex.: Ana Souza" /></label>
+            <label><span>E-mail corporativo</span><input type="email" placeholder="ana@empresa.com" /></label>
+            <label><span>Empresa vinculada</span><select><option>Importadora Atlântico S.A.</option><option>Supplier Global Ltd.</option></select></label>
+            <label><span>Setor</span><select><option>Comercial</option><option>Documentação</option><option>Logística</option><option>Financeiro</option><option>Gestão</option></select></label>
+            <label><span>Papel</span><select><option>Analista</option><option>Supervisor</option><option>Gestor</option><option>Administrador</option></select></label>
+            <label><span>Escopo de acesso</span><select><option>Somente própria empresa</option><option>Todas as empresas do tenant</option><option>Somente bookings atribuídos</option></select></label>
+            <label><span>Senha inicial / convite</span><input type="text" placeholder="Senha temporária ou link de ativação" /></label>
+            <label><span>MFA</span><select><option>Obrigatório</option><option>Opcional</option><option>Desabilitado</option></select></label>
+          </div>
+          <div class="form-actions">
+            <button class="button button--primary" type="button">Criar usuário</button>
+            <button class="button button--ghost" type="button">Reenviar convite</button>
+          </div>
+        </form>
+      </div>
+
+      <article class="card permission-matrix-card">
+        <div class="intake-form__header">
+          <span class="card-tag">Tela 3</span>
+          <h3>Matriz de permissões por setor</h3>
+          <p>Resumo visual para configurar o que cada setor pode visualizar, editar, aprovar ou administrar dentro do sistema.</p>
+        </div>
+        <div class="table-card permission-matrix">
+          <table>
+            <thead>
+              <tr>
+                <th>Módulo</th>
+                <th>Comercial</th>
+                <th>Documentação</th>
+                <th>Logística</th>
+                <th>Financeiro</th>
+                <th>Gestão</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Cotações e reservas</td>
+                <td>Editar / Aprovar</td>
+                <td>Visualizar</td>
+                <td>Visualizar</td>
+                <td>Visualizar</td>
+                <td>Administrar</td>
+              </tr>
+              <tr>
+                <td>Documentos</td>
+                <td>Visualizar</td>
+                <td>Editar / Aprovar</td>
+                <td>Visualizar</td>
+                <td>Visualizar</td>
+                <td>Administrar</td>
+              </tr>
+              <tr>
+                <td>Operação e milestones</td>
+                <td>Visualizar</td>
+                <td>Visualizar</td>
+                <td>Editar / Aprovar</td>
+                <td>Visualizar</td>
+                <td>Administrar</td>
+              </tr>
+              <tr>
+                <td>Custos e faturamento</td>
+                <td>Visualizar</td>
+                <td>Visualizar</td>
+                <td>Visualizar</td>
+                <td>Editar / Aprovar</td>
+                <td>Administrar</td>
+              </tr>
+              <tr>
+                <td>Usuários e políticas</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>Administrar</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card table-card">
+        <h3>Entidades recomendadas para identidade e acesso</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Tabela</th>
+              <th>Campos principais</th>
+              <th>Responsabilidade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>companies</td>
+              <td>id, tenant_id, legal_name, trade_name, tax_id, company_type, status</td>
+              <td>Cadastro base da empresa e papel no ecossistema.</td>
+            </tr>
+            <tr>
+              <td>company_sectors</td>
+              <td>id, company_id, sector_code, sector_name, manager_user_id</td>
+              <td>Setores internos habilitados para a empresa.</td>
+            </tr>
+            <tr>
+              <td>users</td>
+              <td>id, name, email, password_hash, mfa_enabled, status, last_login_at</td>
+              <td>Conta de acesso, credencial e estado do usuário.</td>
+            </tr>
+            <tr>
+              <td>user_memberships</td>
+              <td>id, user_id, company_id, sector_id, role_id, access_scope</td>
+              <td>Vínculo do usuário com empresa, setor e escopo.</td>
+            </tr>
+            <tr>
+              <td>roles / permissions</td>
+              <td>id, code, module, action, policy_json</td>
+              <td>Catálogo de permissões e políticas RBAC/ABAC.</td>
+            </tr>
+            <tr>
+              <td>password_resets</td>
+              <td>id, user_id, token_hash, expires_at, used_at</td>
+              <td>Recuperação de senha e trilha de segurança.</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+
     <section id="dados" class="section">
       <div class="section__heading">
-        <span class="section__kicker">3. Modelagem de dados</span>
+        <span class="section__kicker">4. Modelagem de dados</span>
         <h2>Principais tabelas e responsabilidades</h2>
       </div>
       <div class="table-card card">
@@ -252,9 +459,103 @@
       </article>
     </section>
 
+    <section id="rotas" class="section">
+      <div class="section__heading">
+        <span class="section__kicker">5. Rotas e cálculo operacional</span>
+        <h2>Como o sistema trata rotas, pricing e regras de cálculo</h2>
+        <p class="section__description">Rotas não devem ser apenas origem e destino. O sistema precisa modelar lane comercial, serviço contratado, calendário operacional, restrições e camadas de custo para que o cálculo final seja reproduzível.</p>
+      </div>
+
+      <div class="grid grid--2">
+        <article class="card">
+          <h3>Cadastro mestre de rotas</h3>
+          <ul class="check-list">
+            <li><strong>Lane:</strong> porto/aeroporto de origem, destino, destino final e país.</li>
+            <li><strong>Serviço:</strong> FCL compartilhado, LCL, aéreo consolidado, rodoviário ou multimodal.</li>
+            <li><strong>Calendário:</strong> cut-off documental, cut-off de carga, ETD, ETA e transit time alvo.</li>
+            <li><strong>Carriers e parceiros:</strong> armador/agente preferencial, alternativas e SLA esperado.</li>
+            <li><strong>Restrições:</strong> carga IMO, temperatura, oversized, madeira, alimento, amostras, MAPA/ANVISA.</li>
+            <li><strong>Comercial:</strong> Incoterm aceito, moeda-base, tabela de frete e adicionais válidos.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Regras de roteirização e matching</h3>
+          <ul class="check-list">
+            <li>Compatibilizar bookings apenas quando origem, destino, janela e restrições forem compatíveis.</li>
+            <li>Bloquear match se o transit time ou cut-off não atenderem ao SLA do cliente/importador.</li>
+            <li>Considerar transbordo, armazenagem, free time, risco de congestionamento e histórico da rota.</li>
+            <li>Permitir score de rota por margem, ocupação prevista, recorrência da lane e risco documental.</li>
+          </ul>
+        </article>
+      </div>
+
+      <article class="card table-card route-table">
+        <h3>Matriz recomendada para o módulo de rotas</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Domínio</th>
+              <th>Campos principais</th>
+              <th>Impacto no cálculo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>route_lanes</td>
+              <td>origem, destino, serviço, transit_time_days, carrier, via_port, risco</td>
+              <td>Define compatibilidade da carga e faixa-base de preço.</td>
+            </tr>
+            <tr>
+              <td>route_schedules</td>
+              <td>cutoff_docs_at, cutoff_cargo_at, etd, eta, free_time_days</td>
+              <td>Controla janela válida para consolidar bookings.</td>
+            </tr>
+            <tr>
+              <td>route_restrictions</td>
+              <td>hazmat, temperatura, peso por volume, órgãos anuentes, certificados</td>
+              <td>Ativa documentos extras e sobretaxas operacionais.</td>
+            </tr>
+            <tr>
+              <td>route_price_tables</td>
+              <td>frete base, currency, bunker, THC, peak season, war risk, local charges</td>
+              <td>Forma a cesta de custo antes do rateio por booking.</td>
+            </tr>
+            <tr>
+              <td>route_scorecards</td>
+              <td>margem histórica, no-show, atrasos, ocupação média, claims</td>
+              <td>Prioriza rotas/carriers mais saudáveis comercialmente.</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+
+      <div class="grid grid--2 route-grid">
+        <article class="card route-card">
+          <h3>Pipeline de cálculo por rota</h3>
+          <ol>
+            <li>Selecionar a rota elegível pela combinação origem-destino-serviço-cutoff.</li>
+            <li>Carregar a tabela de custos válida para o carrier e período.</li>
+            <li>Aplicar custos fixos da rota, taxas variáveis e adicionais condicionais.</li>
+            <li>Somar bookings elegíveis e verificar capacidade física e documental.</li>
+            <li>Executar o rateio por peso, volume, valor e regras específicas da rota.</li>
+            <li>Aplicar mínimo operacional, markup comercial e margem alvo da lane.</li>
+          </ol>
+        </article>
+        <article class="card route-card">
+          <h3>Saídas esperadas do motor</h3>
+          <div class="formula-stack">
+            <div class="formula-chip">custo_rota = frete_base + taxas locais + sobretaxas</div>
+            <div class="formula-chip">custo_booking = (custo_rota × share_booking) + custos individuais</div>
+            <div class="formula-chip">margem_lane = receita_total_lane - custo_total_lane</div>
+          </div>
+          <p>O cálculo precisa guardar versão da rota usada, tabela aplicada, currency utilizada, taxa de câmbio, exceções e timestamps para permitir auditoria e reprocessamento futuro.</p>
+        </article>
+      </div>
+    </section>
+
     <section id="rateio" class="section">
       <div class="section__heading">
-        <span class="section__kicker">4. Algoritmo de rateio</span>
+        <span class="section__kicker">6. Algoritmo de rateio</span>
         <h2>Lógica detalhada, auditável e configurável</h2>
       </div>
       <div class="grid grid--2">
@@ -333,6 +634,67 @@
 }</code></pre>
       </article>
 
+      <div class="grid grid--2 calculation-grid">
+        <article class="card">
+          <h3>Espaço e densidade da carga</h3>
+          <div class="formula-stack">
+            <div class="formula-chip">cubagem = comprimento × largura × altura × volumes</div>
+            <div class="formula-chip">densidade = peso_kg ÷ volume_m³</div>
+            <div class="formula-chip">ocupação = total_reservado ÷ capacidade_container</div>
+          </div>
+          <p>O motor precisa calcular espaço físico reservado, densidade média por booking e ocupação acumulada do container para identificar se a reserva consome o gargalo de cubagem ou de peso.</p>
+        </article>
+        <article class="card">
+          <h3>Rateio financeiro por espaço, peso e valor</h3>
+          <div class="formula-stack">
+            <div class="formula-chip">peso_norm = peso_booking ÷ peso_total</div>
+            <div class="formula-chip">volume_norm = volume_booking ÷ volume_total</div>
+            <div class="formula-chip">base_híbrida = (volume × 0,45) + (peso × 0,35) + (valor × 0,20)</div>
+          </div>
+          <p>Com a base híbrida normalizada, o sistema consegue distribuir custos compartilhados de forma auditável e reduzir subsídio cruzado entre cargas leves, densas ou de maior valor agregado.</p>
+        </article>
+      </div>
+
+      <article class="card table-card">
+        <h3>Memória de cálculo recomendada por booking</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Etapa</th>
+              <th>Cálculo</th>
+              <th>Saída obrigatória</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Capacidade física</td>
+              <td>Peso total, volume total, ocupação residual e fator limitante.</td>
+              <td>Status viável/inviável + excedente por kg ou m³.</td>
+            </tr>
+            <tr>
+              <td>Base de rateio</td>
+              <td>Normalização por peso, volume, valor da carga e faixas de ocupação.</td>
+              <td>Percentual de participação de cada empresa.</td>
+            </tr>
+            <tr>
+              <td>Custos compartilhados</td>
+              <td>Frete, THC, seguro, armazenagem, handling e adicionais por porto.</td>
+              <td>Valor rateado por tipo de custo e regra aplicada.</td>
+            </tr>
+            <tr>
+              <td>Custos individualizados</td>
+              <td>Licenças, inspeção, carga IMO, embalagem especial e sobretaxas.</td>
+              <td>Lançamento direto no booking sem redistribuição.</td>
+            </tr>
+            <tr>
+              <td>Fechamento comercial</td>
+              <td>Mínimo operacional, markup, arredondamento e saving vs. embarque dedicado.</td>
+              <td>Custo final faturável + memória de cálculo auditável.</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+
       <div class="grid grid--3">
         <article class="card">
           <h3>Modelo híbrido</h3>
@@ -350,36 +712,222 @@
       </div>
     </section>
 
-    <section id="simulador" class="section">
+    <section id="documentos" class="section">
       <div class="section__heading">
-        <span class="section__kicker">5. Simulação prática</span>
-        <h2>Comparação entre consolidação e embarque individual</h2>
+        <span class="section__kicker">7. Documentos e formulários</span>
+        <h2>Dados obrigatórios para fornecedor e importador preencherem</h2>
+        <p class="section__description">Baseado em guias oficiais da Trade.gov para documentos de exportação e desembaraço: invoice comercial, packing list, bill of lading/air waybill, certificado de origem e documentos especiais conforme produto e país.</p>
       </div>
+
       <div class="grid grid--2">
         <article class="card">
-          <h3>Entradas do simulador</h3>
+          <h3>Checklist mínimo de documentos</h3>
+          <ul class="check-list">
+            <li><strong>Commercial invoice:</strong> descrição da mercadoria, quantidade, preço/valor total, peso, origem, marcas/volumes e dados de embarque.</li>
+            <li><strong>Packing list:</strong> itemização por pacote, tipo de embalagem, quantidade, peso líquido/bruto, marcas e dimensões.</li>
+            <li><strong>Bill of lading / AWB:</strong> shipper, consignee, destino final, descrição da carga, frete/custos e confirmação de embarque.</li>
+            <li><strong>Certificate of origin:</strong> origem declarada e base para preferência tarifária quando aplicável.</li>
+            <li><strong>Licenças/certificados adicionais:</strong> IMO, fumigação, análise, fitossanitário, SDS, inspeção pré-embarque ou licença de importação.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Regras de produto para o módulo</h3>
+          <ul class="check-list">
+            <li>Bloquear fechamento sem invoice, packing list e transporte vinculados ao booking.</li>
+            <li>Tornar configuráveis os campos extras por país, NCM/HS code, Incoterm e regime aduaneiro.</li>
+            <li>Exigir validação cruzada entre invoice, packing list e booking para peso, volume, packages e valores.</li>
+            <li>Adicionar gatilhos para documentos especiais quando a carga for perigosa, vegetal, animal, química ou sujeita a licença.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="document-cards">
+        <article class="card document-card">
+          <h3>Commercial invoice</h3>
+          <p>Campos-base usados por aduana para valoração e conferência documental.</p>
+          <ul>
+            <li>Exportador / seller legal name, endereço e contato</li>
+            <li>Comprador / importer / consignee</li>
+            <li>Número e data da invoice</li>
+            <li>Descrição detalhada da mercadoria</li>
+            <li>Quantidade, unidade, preço unitário e valor total</li>
+            <li>Peso líquido, peso bruto, marcas e números</li>
+            <li>País de origem, porto e meio de transporte</li>
+          </ul>
+        </article>
+        <article class="card document-card">
+          <h3>Packing list</h3>
+          <p>Obrigatório para conferência física e comparação com invoice e booking.</p>
+          <ul>
+            <li>Identificação do seller, buyer, shipper e invoice</li>
+            <li>Data de embarque, modal, carrier e rota</li>
+            <li>Pacote/caixa/pallet, quantidade de volumes e numeração</li>
+            <li>Descrição do item por embalagem</li>
+            <li>Peso líquido, peso bruto e dimensões por pacote</li>
+            <li>Marcas de embarque e observações de manuseio</li>
+          </ul>
+        </article>
+        <article class="card document-card">
+          <h3>Bill of lading / AWB</h3>
+          <p>Dados críticos para instrução de embarque e retirada da carga no destino.</p>
+          <ul>
+            <li>Nome do shipper</li>
+            <li>Nome e endereço do consignee</li>
+            <li>Notify party / broker no destino</li>
+            <li>Porto de destino final</li>
+            <li>Descrição da carga e número de originais</li>
+            <li>Frete e demais charges</li>
+            <li>Confirmação do carrier de recebimento a bordo</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="forms-grid">
+        <form class="card intake-form">
+          <div class="intake-form__header">
+            <span class="card-tag">Fornecedor</span>
+            <h3>Formulário para supplier/exportador</h3>
+            <p>Preenchido por quem emite invoice, packing list e informações de embarque da carga.</p>
+          </div>
+          <div class="form-grid">
+            <label><span>Razão social do exportador</span><input type="text" placeholder="Ex.: Supplier Global Ltd." /></label>
+            <label><span>Contato responsável</span><input type="text" placeholder="Nome, e-mail e telefone" /></label>
+            <label><span>Número/data da invoice</span><input type="text" placeholder="INV-2026-001 / 19-03-2026" /></label>
+            <label><span>País de origem</span><input type="text" placeholder="Ex.: China" /></label>
+            <label><span>Descrição comercial + HS Code</span><input type="text" placeholder="Produto, modelo, aplicação e HS code" /></label>
+            <label><span>Incoterm e moeda</span><input type="text" placeholder="FOB Shanghai / USD" /></label>
+            <label><span>Quantidade / volumes</span><input type="text" placeholder="480 peças / 12 pallets" /></label>
+            <label><span>Peso líquido / bruto / m³</span><input type="text" placeholder="2.980 kg / 3.200 kg / 9,5 m³" /></label>
+            <label class="form-grid__full"><span>Marcas, números e embalagem</span><textarea rows="3" placeholder="Packing marks, numeração de caixas, tipo de embalagem e dimensões"></textarea></label>
+            <label class="form-grid__full"><span>Necessidades especiais</span><textarea rows="3" placeholder="IMO, fumigação, certificado de análise, SDS, temperatura controlada, inspeção etc."></textarea></label>
+          </div>
+        </form>
+
+        <form class="card intake-form">
+          <div class="intake-form__header">
+            <span class="card-tag">Importador</span>
+            <h3>Formulário para importer/consignee</h3>
+            <p>Preenchido por quem receberá a carga, definirá exigências regulatórias e validará o desembaraço.</p>
+          </div>
+          <div class="form-grid">
+            <label><span>Razão social do importador</span><input type="text" placeholder="Ex.: Importadora Atlântico S.A." /></label>
+            <label><span>ID fiscal / registro aduaneiro</span><input type="text" placeholder="CNPJ, VAT, EORI, API ou equivalente" /></label>
+            <label><span>Consignee / notify party</span><input type="text" placeholder="Nome, endereço e contato no destino" /></label>
+            <label><span>Porto / aeroporto de destino</span><input type="text" placeholder="Santos / Guarulhos / destino final" /></label>
+            <label><span>Broker / despachante</span><input type="text" placeholder="Empresa e contato do broker" /></label>
+            <label><span>Licença ou regime especial</span><input type="text" placeholder="LI, LPCO, anuência, drawback, ex-tarifário" /></label>
+            <label><span>Preferência tarifária / COO</span><input type="text" placeholder="FTA, certificado de origem ou sem preferência" /></label>
+            <label><span>Condições comerciais</span><input type="text" placeholder="Freight prepaid/collect, pagamento, seguro" /></label>
+            <label class="form-grid__full"><span>Documentos adicionais exigidos</span><textarea rows="3" placeholder="Fitossanitário, halal, análise, fumigação, catálogos, laudos, traduções, procuração etc."></textarea></label>
+            <label class="form-grid__full"><span>Observações de compliance</span><textarea rows="3" placeholder="Requisitos do país, texto obrigatório, exigências do cliente final, órgão anuente e prazo-limite"></textarea></label>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section id="simulador" class="section">
+      <div class="section__heading">
+        <span class="section__kicker">8. Simulação prática</span>
+        <h2>Comparação entre consolidação e embarque individual</h2>
+        <p class="section__description">Fluxo guiado para testar viabilidade, visualizar a ocupação do container e comparar economia com feedback instantâneo.</p>
+      </div>
+      <div class="simulator-layout">
+        <article class="card simulator-card simulator-card--form">
+          <div class="simulator-card__header">
+            <div>
+              <span class="card-tag">Passo 1</span>
+              <h3>Entradas do simulador</h3>
+            </div>
+            <p>Preencha os dados da empresa e ajuste os números até encontrar uma combinação viável para consolidação.</p>
+          </div>
+
+          <div class="simulator-context">
+            <article>
+              <span>Carga já reservada</span>
+              <strong>18,4 t / 53 m³</strong>
+              <small>Base inicial do embarque compartilhado antes da nova empresa.</small>
+            </article>
+            <article>
+              <span>Capacidade do container</span>
+              <strong>28 t / 67 m³</strong>
+              <small>Qualquer excedente bloqueia a simulação de preço.</small>
+            </article>
+          </div>
+
           <div class="simulator-form">
             <label>
-              Peso da empresa (kg)
-              <input id="simWeight" type="number" min="1" value="3200" />
+              <span>Peso da empresa</span>
+              <small>Informe o peso bruto total da carga.</small>
+              <div class="input-shell">
+                <input id="simWeight" type="number" min="1" value="3200" />
+                <span class="input-unit">kg</span>
+              </div>
             </label>
             <label>
-              Volume da empresa (m³)
-              <input id="simVolume" type="number" min="0.1" step="0.1" value="9.5" />
+              <span>Volume da empresa</span>
+              <small>Use a cubagem total prevista para embarque.</small>
+              <div class="input-shell">
+                <input id="simVolume" type="number" min="0.1" step="0.1" value="9.5" />
+                <span class="input-unit">m³</span>
+              </div>
             </label>
             <label>
-              Valor da mercadoria (USD)
-              <input id="simCargoValue" type="number" min="100" step="100" value="28000" />
+              <span>Valor da mercadoria</span>
+              <small>Informe o valor na moeda operacional base do simulador.</small>
+              <div class="input-shell">
+                <input id="simCargoValue" type="number" min="100" step="100" value="28000" />
+                <span id="simCargoCurrencyUnit" class="input-unit">USD</span>
+              </div>
             </label>
             <label>
-              Custo individual estimado (USD)
-              <input id="simIndividualCost" type="number" min="100" step="100" value="6200" />
+              <span>Custo individual estimado</span>
+              <small>Quanto custaria embarcar sozinho na mesma rota.</small>
+              <div class="input-shell">
+                <input id="simIndividualCost" type="number" min="100" step="100" value="6200" />
+                <span id="simCostCurrencyUnit" class="input-unit">USD</span>
+              </div>
             </label>
-            <button id="simulateButton" class="button button--primary" type="button">Calcular economia</button>
+            <label>
+              <span>Moeda de visualização</span>
+              <small>Converta os resultados do simulador para a moeda do cliente.</small>
+              <div class="input-shell">
+                <select id="simTargetCurrency">
+                  <option value="USD">USD</option>
+                  <option value="BRL" selected>BRL</option>
+                  <option value="EUR">EUR</option>
+                  <option value="CNY">CNY</option>
+                </select>
+                <span class="input-unit">FX</span>
+              </div>
+            </label>
+            <label>
+              <span>Cotação do dia</span>
+              <small>1 USD = ? moeda de visualização. Pode editar manualmente.</small>
+              <div class="input-shell">
+                <input id="simExchangeRate" type="number" min="0.0001" step="0.0001" value="5.2987" />
+                <span id="simTargetCurrencyUnit" class="input-unit">BRL</span>
+              </div>
+            </label>
           </div>
+
+          <div class="simulator-actions">
+            <button id="simulateButton" class="button button--primary" type="button">Calcular economia</button>
+            <button id="fetchFxButton" class="button button--secondary" type="button">Buscar cotação do dia</button>
+            <button id="resetSimulationButton" class="button button--ghost" type="button">Restaurar exemplo</button>
+          </div>
+          <p id="simFxStatus" class="sim-fx-status">Cotação-base carregada para USD → BRL. Você também pode editar a taxa manualmente.</p>
         </article>
-        <article class="card card--accent">
-          <h3>Resultado estimado</h3>
+
+        <article class="card card--accent simulator-card simulator-card--result">
+          <div class="simulator-card__header">
+            <div>
+              <span class="card-tag">Passo 2</span>
+              <h3>Leitura operacional</h3>
+            </div>
+            <p>Veja imediatamente se a reserva cabe no container e qual indicador está limitando a ocupação.</p>
+          </div>
+
+          <div class="simulator-health" id="simHealth"></div>
           <div id="simResult" class="sim-result"></div>
           <p class="sim-footnote">Simulação ilustrativa usando modelo híbrido: 45% volume, 35% peso, 20% valor, com mínimo operacional e margem embutida.</p>
         </article>
@@ -388,7 +936,7 @@
 
     <section id="ux" class="section">
       <div class="section__heading">
-        <span class="section__kicker">6. Fluxo de usuário</span>
+        <span class="section__kicker">9. Fluxo de usuário</span>
         <h2>UX operacional próxima de um sistema real</h2>
       </div>
       <div class="timeline">
@@ -427,7 +975,7 @@
 
     <section id="roadmap" class="section">
       <div class="section__heading">
-        <span class="section__kicker">7. Roadmap</span>
+        <span class="section__kicker">10. Roadmap</span>
         <h2>Evolução do MVP até escala de marketplace</h2>
       </div>
       <div class="grid grid--3">
@@ -466,7 +1014,7 @@
 
     <section id="stack" class="section">
       <div class="section__heading">
-        <span class="section__kicker">8. Stack tecnológica</span>
+        <span class="section__kicker">11. Stack tecnológica</span>
         <h2>Tecnologias reais e justificadas</h2>
       </div>
       <div class="grid grid--2">
@@ -497,7 +1045,7 @@
 
     <section id="riscos" class="section">
       <div class="section__heading">
-        <span class="section__kicker">9. Riscos e mitigação</span>
+        <span class="section__kicker">12. Riscos e mitigação</span>
         <h2>O que pode falhar e como reduzir impacto</h2>
       </div>
       <div class="grid grid--2">
@@ -526,7 +1074,7 @@
 
     <section id="monetizacao" class="section">
       <div class="section__heading">
-        <span class="section__kicker">10. Monetização SaaS</span>
+        <span class="section__kicker">13. Monetização SaaS</span>
         <h2>Modelos de receita viáveis para a plataforma</h2>
       </div>
       <div class="grid grid--3">
